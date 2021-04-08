@@ -1,0 +1,15 @@
+html, body {
+	font-family: 'Zilla Slab', serif;
+}
+
+.accordion-button:focus {
+	border-color: gray;
+}
+
+.accordion-button:not(.collapsed) {
+	color: black;
+}
+
+.accordion-button_img {
+	margin-right: 10px;
+}
