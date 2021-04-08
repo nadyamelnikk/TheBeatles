@@ -13,3 +13,9 @@ html, body {
 .accordion-button_img {
 	margin-right: 10px;
 }
+
+.render {
+	display: flex;
+	justify-content: space-between;
+	margin: 40px 0;
+}
