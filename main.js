@@ -22,20 +22,28 @@ const TheBeatlesBand = [
 ]
 
 const accordionBeatles = document.querySelector('#accordionBeatles');
+const renderTheBeatles = document.querySelector('#renderTheBeatles');
+const wrapper = document.querySelector('.wrapper');
+const someMusicant = {
+	TheBeatles: data => new TheBeatles(data)
+}
 
-
-class TheBeatles {
+class TheBeatlesData {
 	static createBeatles(arr){
 		console.log(arr);
 
 		let beatles = arr
-			.map(beatle=>new TheBeatle(beatle))
+			.map(beatle=>someMusicant[beatle.name.replace(' ', '')] ? someMusicant[beatle.name.replace(' ', '')](beatle) : new TheBeatle(beatle));
+			console.log(beatles);
+		let beatlesAccordion = beatles
 			.map((beatle, index)=>beatle.renderBeatle(index))
 			.join('');
 
-		accordionBeatles.innerHTML = beatles;
+		beatles.map(beatle=>{
+			beatle.renderMusicant()
+		})
 
-		console.log(beatles);
+		accordionBeatles.innerHTML = beatlesAccordion;
 	}
 }
 
@@ -63,9 +71,39 @@ class TheBeatle {
 		    </div>
 		  </div>`
 	}
+
+	renderMusicant(){
+		let musicant = document.createElement('img');
+		musicant.id = `render__${this.name.replace(' ', '')}`;
+		musicant.src = `images/${this.name.replace(' ', '')}.svg`;
+		musicant.alt = this.name;
+		musicant.width = 150;
+		musicant.height = 150;
+		renderTheBeatles.append(musicant);
+
+		musicant.addEventListener('click', ()=> {
+			let btn = document.querySelector(`button[aria-controls="collapse${this.name.replace(' ', '')}"]`);
+			btn.click();
+		})
+	}
 }
 
-TheBeatles.createBeatles(TheBeatlesBand);
+
+class TheBeatles extends TheBeatle {
+	constructor(beatle) {
+		super(beatle);
+	}
+	renderMusicant(){
+		let title = document.createElement('img');
+		title.src = `images/beatleslogo.svg`;
+		title.alt = `beatleslogo`;
+		title.width = 300;
+		title.height = 140;
+		wrapper.prepend(title);
+	}
+}
+
+TheBeatlesData.createBeatles(TheBeatlesBand);
 
 
 
