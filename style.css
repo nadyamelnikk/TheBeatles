@@ -19,3 +19,15 @@ html, body {
 	justify-content: space-between;
 	margin: 40px 0;
 }
+.render img {
+		cursor: pointer;
+		transition: 0.2s;
+}
+.render img:hover {
+	transform: scale(1.2);
+}
+
+.wrapper {
+	text-align: center;
+	margin-top: 20px;
+}
