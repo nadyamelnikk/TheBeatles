@@ -23,21 +23,27 @@ const TheBeatlesBand = [
 
 const accordionBeatles = document.querySelector('#accordionBeatles');
 const renderTheBeatles = document.querySelector('#renderTheBeatles');
+const wrapper = document.querySelector('.wrapper');
+const music = document.querySelector('#music');
+const someMusicant = {
+	TheBeatles: data => new TheBeatles(data),
+	JohnLennon: data => new John(data),
+	PaulMcCartney: data => new Paul(data),
+	GeorgeHarrison: data => new George(data),
+	RingoStarr: data => new Ringo(data)
+}
 
-
-class TheBeatles {
+class TheBeatlesData {
 	static createBeatles(arr){
-		console.log(arr);
-
 		let beatles = arr
-			.map(beatle=>new TheBeatle(beatle));
+			.map(beatle=>someMusicant[beatle.name.replace(' ', '')] ? someMusicant[beatle.name.replace(' ', '')](beatle) : new TheBeatle(beatle));
 
 		let beatlesAccordion = beatles
 			.map((beatle, index)=>beatle.renderBeatle(index))
 			.join('');
 
 		beatles.map(beatle=>{
-			beatle.renderMusician()
+			beatle.renderMusicant()
 		})
 
 		accordionBeatles.innerHTML = beatlesAccordion;
@@ -69,7 +75,7 @@ class TheBeatle {
 		  </div>`
 	}
 
-	renderMusician(){
+	renderMusicant(){
 		let musicant = document.createElement('img');
 		musicant.id = `render__${this.name.replace(' ', '')}`;
 		musicant.src = `images/${this.name.replace(' ', '')}.svg`;
@@ -78,14 +84,99 @@ class TheBeatle {
 		musicant.height = 150;
 		renderTheBeatles.append(musicant);
 
-		musicant.addEventListener('click', ()=> {
-			let btn = document.querySelector(`button[aria-controls="collapse${this.name.replace(' ', '')}"]`);
-			btn.click();
-		})
+		musicant.addEventListener('click', this.renderMusicantClick.bind(this)) 
+	}
+
+	renderMusicantClick() {
+		let btn = document.querySelector(`button[aria-controls="collapse${this.name.replace(' ', '')}"]`);
+		btn.click();
 	}
 }
 
-TheBeatles.createBeatles(TheBeatlesBand);
+
+class TheBeatles extends TheBeatle {
+	constructor(beatle) {
+		super(beatle);
+	}
+	renderMusicant(){
+		let title = document.createElement('img');
+		title.src = `images/beatleslogo.svg`;
+		title.alt = `beatleslogo`;
+		title.width = 300;
+		title.height = 140;
+		wrapper.prepend(title);
+	}
+}
+
+class John extends TheBeatle {
+	constructor(beatle) {
+		super(beatle);
+	}
+	renderMusicantClick(){
+		super.renderMusicantClick();
+		this.JohnMusicOn();
+	}
+	JohnMusicOn() {
+		let song = document.createElement('source');
+		song.src = `audio/ISawHerStandingThere.mp3`;
+		music.controls = true;
+		music.append(song);
+		music.play();
+	}
+}
+
+class Paul extends TheBeatle {
+	constructor(beatle) {
+		super(beatle);
+	}
+	renderMusicantClick(){
+		super.renderMusicantClick();
+		this.PaulMusic();
+	}
+	PaulMusic() {
+		let song = document.createElement('source');
+		song.src = `audio/AllMyLoving.mp3`;
+		music.controls = true;
+		music.append(song);
+		music.play();
+	}
+}
+
+class George extends TheBeatle {
+	constructor(beatle) {
+		super(beatle);
+	}
+	renderMusicantClick(){
+		super.renderMusicantClick();
+		this.GeorgeMusic();
+	}
+	GeorgeMusic() {
+		let song = document.createElement('source');
+		song.src = `audio/ImHappyJustToDanceWithYou.mp3`;
+		music.controls = true;
+		music.append(song);
+		music.play();
+	}
+}
+
+class Ringo extends TheBeatle {
+	constructor(beatle) {
+		super(beatle);
+	}
+	renderMusicantClick(){
+		super.renderMusicantClick();
+		this.RingoMusic();
+	}
+	RingoMusic() {
+		let song = document.createElement('source');
+		song.src = `audio/DontPassMeBy.mp3`;
+		music.controls = true;
+		music.append(song);
+		music.play();
+	}
+}
+
+TheBeatlesData.createBeatles(TheBeatlesBand);
 
 
 
