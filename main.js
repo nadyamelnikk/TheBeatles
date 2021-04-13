@@ -37,7 +37,6 @@ class TheBeatlesData {
 	static createBeatles(arr){
 		let beatles = arr
 			.map(beatle=>someMusicant[beatle.name.replace(' ', '')] ? someMusicant[beatle.name.replace(' ', '')](beatle) : new TheBeatle(beatle));
-
 		let beatlesAccordion = beatles
 			.map((beatle, index)=>beatle.renderBeatle(index))
 			.join('');
@@ -175,6 +174,7 @@ class Ringo extends TheBeatle {
 		music.play();
 	}
 }
+
 
 TheBeatlesData.createBeatles(TheBeatlesBand);
 
